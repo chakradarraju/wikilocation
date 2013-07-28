@@ -1,13 +1,13 @@
-import urllib, urllib2, json, sys
+import urllib, requests, sys
 from datetime import datetime
 
 api = 'http://en.wikipedia.org/w/api.php?action=query&format=json'
 
 def get(url):
-	return urllib2.urlopen(url).read()
+	return requests.get(url).text
 
 def getAsJson(url):
-	return json.loads(get(url))
+	return requests.get(url).json()
 
 def getUrl(title,limit):
 	return api+'&prop=links&titles='+urllib.quote(title)+'&pllimit='+str(limit)
