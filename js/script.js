@@ -112,7 +112,6 @@ $("#back").click(function(e) {
 	$("#exportedPage").hide();
 })
 
-function removeComma(a) {
-	while(a.indexOf(",")!=-1) a = a.replace(",","");
-	return a;
+function removeSpecialChars(a) {
+	return a.replace(/[\n,]/g,'');
 }

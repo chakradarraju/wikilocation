@@ -8,9 +8,9 @@
     <input type="radio" name="<%= movie %>_<%= i %>" value="<%=
       locations[i].coordinates.lat+","+
       locations[i].coordinates.lon+","+
-      removeComma(locations[i].title)+","+
-      removeComma(movie)+","+
-      removeComma(locations[i].text[j])+","+
+      removeSpecialChars(locations[i].title)+","+
+      removeSpecialChars(movie)+","+
+      removeSpecialChars(locations[i].text[j])+","+
       "http://en.wikipedia.org/wiki/"+movie
     %>" <%= locations[i].text.length===1?"checked":"" %> />
     <%= locations[i].text[j] %>
@@ -19,8 +19,8 @@
     <input type="radio" value="<%=
       locations[i].coordinates.lat+","+
       locations[i].coordinates.lon+","+
-      removeComma(locations[i].title)+","+
-      removeComma(movie)+","+
+      removeSpecialChars(locations[i].title)+","+
+      removeSpecialChars(movie)+","+
       ","+
       "http://en.wikipedia.org/wiki/"+movie
     %>" checked style="display:none;" />
