@@ -4,7 +4,26 @@
 <div style="margin-bottom:15px">
   <b><%= locations[i].title %></b>: lat:<%= locations[i].coordinates.lat %>, lon:<%= locations[i].coordinates.lon %>
   <% for(var j=0;j<locations[i].text.length;j++) { %>
-    <br/> <%= locations[i].text[j] %>
+    <br/>
+    <input type="radio" name="<%= movie %>_<%= i %>" value="<%=
+      locations[i].coordinates.lat+","+
+      locations[i].coordinates.lon+","+
+      removeComma(locations[i].title)+","+
+      removeComma(movie)+","+
+      removeComma(locations[i].text[j])+","+
+      "http://en.wikipedia.org/wiki/"+movie
+    %>" <%= locations[i].text.length===1?"checked":"" %> />
+    <%= locations[i].text[j] %>
+  <% } %>
+  <% if(locations[i].text.length===0) { %>
+    <input type="radio" value="<%=
+      locations[i].coordinates.lat+","+
+      locations[i].coordinates.lon+","+
+      removeComma(locations[i].title)+","+
+      removeComma(movie)+","+
+      ","+
+      "http://en.wikipedia.org/wiki/"+movie
+    %>" checked style="display:none;" />
   <% } %>
 </div>
 <% } %>

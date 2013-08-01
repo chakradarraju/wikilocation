@@ -5,27 +5,30 @@ var apiBase = 'http://en.wikipedia.org/w/api.php?action=query&format=json&callba
 	pageReqs = null,
 	startTime;
 
+$("#exportedPage").hide();
+
 function br(arr,sz) {
 	var broken = []
 	for(var i=0;i<arr.length;i+=sz) broken.push(arr.slice(i,i+sz));
 	return broken;
 }
 
-function constructLocation(page, moviePage) {
-	var i = moviePage.indexOf(page.title),
+function constructLocation(location, moviePage) {
+	var i = moviePage.indexOf(location.title),
 			text = [],
-			titleLen = page.title.length;
+			titleLen = location.title.length;
 
 	while(i!=-1) {
 		var start = Math.max(0,i-50), end = Math.min(moviePage.length,i+titleLen+50), length = end-i+titleLen+1;
-		text.push("...."+moviePage.substr(start,50)+"<b><i>"+page.title+"</i></b>"+moviePage.substr(i+titleLen,length)+"....");
-		i = moviePage.indexOf(page.title,i+1);
+		text.push("...."+moviePage.substr(start,end-start+1));
+		//text.push("...."+moviePage.substr(start,50)+"<b><i>"+location.title+"</i></b>"+moviePage.substr(i+titleLen,length)+"....");
+		i = moviePage.indexOf(location.title,i+1);
 	}
 	return {
-		title: page.title,
+		title: location.title,
 		coordinates: {
-			lat: page.coordinates[0].lat,
-			lon: page.coordinates[0].lon,
+			lat: location.coordinates[0].lat,
+			lon: location.coordinates[0].lon,
 		},
 		text: text,
 	}
@@ -93,3 +96,21 @@ $("#fetchBtn").click(function(e) {
 		})
 	});
 });
+
+$("#export").click(function(e) {
+	var csv = "";
+	$.each($("input:radio:checked"),function(index,value) {
+		csv += value.value + "\n";
+	});
+	$("#csv").html(csv);
+	$("#exportedPage").show();
+});
+
+$("#back").click(function(e) {
+	$("#exportedPage").hide();
+})
+
+function removeComma(a) {
+	while(a.indexOf(",")!=-1) a = a.replace(",","");
+	return a;
+}

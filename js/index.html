@@ -7,9 +7,14 @@
 Enter wikipedia article name's separated by comma:
 <input type="text" id="movieNames" /> <input type="button" value="Fetch locations" id="fetchBtn" /><br/>
 Eg: "Dr._No_(film),Casino_Royale_(2006_film),From_Russia_with_Love_(film),Goldfinger_(film)"<br/>
-Status: <span id="status"></span> <span id="timeTaken"></span>
+Status: <span id="status"></span> <span id="timeTaken"></span><br/>
 <div id="movieList">
 
+</div>
+<input type="button" id="export" value="Export" />
+<div id="exportedPage">
+<textarea id="csv" style="position:fixed;left:0px;right:0px;top:0px;bottom:0px;"></textarea>
+<input type="button" value="< Back" id="back" style="position:fixed;right:10px;top:10px;" />
 </div>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="ejs.js"></script>
