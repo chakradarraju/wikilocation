@@ -70,6 +70,7 @@ $("#fetchBtn").click(function(e) {
 	startTime = new Date();
 	$("#status").html("fetching");
 	var movies = $("#movieNames").val().split(",");
+	$("#movieList").html("");
 	movieReqs = [], linkReqs = [], pageReqs = [];
 	$.each(movies, function(index, movie) {
 		movieReqs.push($.get(apiBase+"&prop=links&titles="+movie+"&pllimit=5000", function(data) {
