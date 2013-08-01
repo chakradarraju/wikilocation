@@ -6,6 +6,7 @@ var apiBase = 'http://en.wikipedia.org/w/api.php?action=query&format=json&callba
 	startTime;
 
 $("#exportedPage").hide();
+$("#export").hide();
 
 function br(arr,sz) {
 	var broken = []
@@ -92,6 +93,7 @@ $("#fetchBtn").click(function(e) {
 			whenDone(linkReqs, function() {
 				$("#status").html("done");
 				$("#timeTaken").html((new Date()-startTime)/1000 + "s");
+				$("#export").show();
 			});
 		})
 	});
