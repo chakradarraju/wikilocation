@@ -13,10 +13,12 @@ function br(arr,sz) {
 
 function constructLocation(page, moviePage) {
 	var i = moviePage.indexOf(page.title),
-			text = [];
+			text = [],
+			titleLen = page.title.length;
+
 	while(i!=-1) {
-		var start = Math.max(0,i-50), end = Math.min(moviePage.length,i+page.title.length+50), length = end-start+1;
-		text.push("...."+moviePage.substr(start,length)+"....");
+		var start = Math.max(0,i-50), end = Math.min(moviePage.length,i+titleLen+50), length = end-i+titleLen+1;
+		text.push("...."+moviePage.substr(start,50)+"<b><i>"+page.title+"</i></b>"+moviePage.substr(i+titleLen,length)+"....");
 		i = moviePage.indexOf(page.title,i+1);
 	}
 	return {
