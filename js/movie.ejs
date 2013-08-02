@@ -12,7 +12,7 @@
       removeSpecialChars(movie)+","+
       removeSpecialChars(locations[i].text[j])+","+
       "http://en.wikipedia.org/wiki/"+movie
-    %>" <%= locations[i].text.length===1?"checked":"" %> />
+    %>" <%= j?"":"checked" %> />
     <%= locations[i].text[j] %>
   <% } %>
   <% if(locations[i].text.length===0) { %>

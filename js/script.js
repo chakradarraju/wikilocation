@@ -21,7 +21,7 @@ function constructLocation(location, moviePage) {
 
 	while(i!=-1) {
 		var start = Math.max(0,i-50), end = Math.min(moviePage.length,i+titleLen+50), length = end-i+titleLen+1;
-		text.push("...."+moviePage.substr(start,end-start+1));
+		text.push("...."+moviePage.substr(start,end-start+1)+"....");
 		//text.push("...."+moviePage.substr(start,50)+"<b><i>"+location.title+"</i></b>"+moviePage.substr(i+titleLen,length)+"....");
 		i = moviePage.indexOf(location.title,i+1);
 	}
