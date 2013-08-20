@@ -5,6 +5,8 @@ var apiBase = 'http://en.wikipedia.org/w/api.php?action=query&format=json&callba
 	pageReqs = null,
 	startTime;
 
+var movieActorHash = {"Dr._No_(film)":"Sean Connery;Ursula Andress;Joseph Wiseman;Jack Lord;John Kitzmiller","From_Russia_with_Love_(film)":"Sean Connery;Pedro Armendáriz;Lotte Lenya;Robert Shaw;Bernard Lee;Daniela Bianchi","Goldfinger_(film)":"Sean Connery;Gert Fröbe;Honor Blackman;Harold Sakata;Bernard Lee","Thunderball_(film)":"Sean Connery;Claudine Auger;Adolfo Celi;Luciana Paluzzi;Rik Van Nutter;Desmond Llewelyn;Bernard Lee","You_Only_Live_Twice_(film)":"Sean Connery;Mie Hama;Donald Pleasence;Akiko Wakabayashi","On_Her_Majesty's_Secret_Service_(film)":"George Lazenby;Diana Rigg;Telly Savalas;Bernard Lee;Gabriele Ferzetti","Diamonds_Are_Forever_(film)":"Sean Connery;Jill St. John;Charles Gray;Lana Wood;Bernard Lee","Live_and_Let_Die_(film)":"Roger Moore;Yaphet Kotto;Jane Seymour;David Hedison;Bernard Lee","The_Man_with_the_Golden_Gun_(film)":"Roger Moore;Christopher Lee;Britt Ekland;Maud Adams;Hervé Villechaize;James Cossins;Clifton James;Bernard Lee","The_Spy_Who_Loved_Me_(film)":"Roger Moore;Barbara Bach;Curd Jürgens;Richard Kiel;Caroline Munro;Geoffrey Keen;Walter Gotell;Bernard Lee","Moonraker_(film)":"Roger Moore;Michael Lonsdale;Lois Chiles;Richard Kiel;Bernard Lee","For_Your_Eyes_Only_(film)":"Roger Moore;Julian Glover;Carole Bouquet;Chaim Topol;Lynn-Holly Johnson","Octopussy":"Roger Moore;Maud Adams;Louis Jourdan;Steven Berkoff;Desmond Llewelyn;Kristina Wayborn","Never_Say_Never_Again":"Sean Connery;Kim Basinger;Klaus Maria Brandauer;Barbara Carrera;Max von Sydow;Bernie Casey;Rowan Atkinson","A_View_to_a_Kill":"Roger Moore;Tanya Roberts;Grace Jones;Patrick Macnee;Christopher Walken","The_Living_Daylights":"Timothy Dalton;Maryam d'Abo;Jeroen Krabbé;Art Malik;John Rhys-Davies;Joe Don Baker","Licence_to_Kill":"Timothy Dalton;Carey Lowell;Robert Davi;Talisa Soto","GoldenEye":"Pierce Brosnan;Sean Bean;Izabella Scorupco;Famke Janssen;Judi Dench","Tomorrow_Never_Dies":"Pierce Brosnan;Jonathan Pryce;Michelle Yeoh;Teri Hatcher;Judi Dench","The_World_Is_Not_Enough":"Pierce Brosnan;Sophie Marceau;Robert Carlyle;Denise Richards;Judi Dench","Die_Another_Day":"Pierce Brosnan;Halle Berry;Toby Stephens;Rick Yune;Rosamund Pike;Judi Dench","Casino_Royale_(2006_film)":"Daniel Craig;Eva Green;Mads Mikkelsen;Judi Dench","Quantum_of_Solace":"Daniel Craig;Olga Kurylenko;Mathieu Amalric;Gemma Arterton;Judi Dench;Jeffrey Wright;Giancarlo Giannini","Skyfall":"Daniel Craig;Javier Bardem;Ralph Fiennes;Naomie Harris;Bérénice Marlohe;Albert Finney;Judi Dench"};
+
 $("#exportedPage").hide();
 $("#export").hide();
 
@@ -62,7 +64,7 @@ function searchForLocations(movie, titles, page, imageurl) {
 		linkReqs.push($.get(apiBase+'&prop=coordinates&titles='+$.map(slices[i],encodeURIComponent).join("|"), 
 			function(data) {
 				locations = locations.concat(getLocations(data.query.pages,page));
-				if(++replyCount == slices.length) showLocations({movie:movie,locations:locations,imageurl:imageurl});
+				if(++replyCount == slices.length) showLocations({movie:movie,locations:locations,imageurl:imageurl,actors:movieActorHash[movie]});
 			}, "json"));
 	}
 }
