@@ -21,6 +21,8 @@ function constructLocation(location, moviePage) {
 
 	while(i!=-1) {
 		var start = Math.max(0,i-50), end = Math.min(moviePage.length,i+titleLen+50), length = end-i+titleLen+1;
+		while(start > 0 && moviePage.charAt(start) != ' ') start--;
+		while(end < moviePage.length && moviePage.charAt(end) != ' ') end++;
 		text.push("...."+moviePage.substr(start,end-start+1)+"....");
 		//text.push("...."+moviePage.substr(start,50)+"<b><i>"+location.title+"</i></b>"+moviePage.substr(i+titleLen,length)+"....");
 		i = moviePage.indexOf(location.title,i+1);
@@ -51,7 +53,7 @@ function showLocations(info) {
 	$("#movieList").append(movie.render(info));
 }
 
-function searchForLocations(movie, titles, page) {
+function searchForLocations(movie, titles, page, imageurl) {
 	var slices = br(titles,50),
 		locations = [],
 		replyCount = 0;
@@ -60,7 +62,7 @@ function searchForLocations(movie, titles, page) {
 		linkReqs.push($.get(apiBase+'&prop=coordinates&titles='+$.map(slices[i],encodeURIComponent).join("|"), 
 			function(data) {
 				locations = locations.concat(getLocations(data.query.pages,page));
-				if(++replyCount == slices.length) showLocations({movie:movie,locations:locations});
+				if(++replyCount == slices.length) showLocations({movie:movie,locations:locations,imageurl:imageurl});
 			}, "json"));
 	}
 }
@@ -77,25 +79,21 @@ $("#fetchBtn").click(function(e) {
 	$("#movieList").html("");
 	movieReqs = [], linkReqs = [], pageReqs = [];
 	$.each(movies, function(index, movie) {
-		movieReqs.push($.get(apiBase+"&prop=links&titles="+movie+"&pllimit=5000", function(data) {
-			linkList = getOnlyValue(data.query.pages).links; // a list of links, not linked list
+		movieReqs.push($.get(apiBase+"&prop=links|extracts|pageimages&titles="+movie+"&pllimit=5000&explaintext&pithumbsize=250", function(data) {
+			props = getOnlyValue(data.query.pages);
+			linkList = props.links; // a list of links, not linked list
+			page = props.extract;
+			imageurl = props.thumbnail.source;
 			titles = $.map(linkList, function(link) { return link.title; });
-			(function(movie,titles) {
-				pageReqs.push($.get(apiBase+"&prop=extracts&explaintext&titles="+movie, function(pagedata) {
-					var page = getOnlyValue(pagedata.query.pages).extract;
-					searchForLocations(movie,titles,page);
-				}, "json"));
-			})(movie,titles);
+			searchForLocations(movie,titles,page,imageurl);
 		}, "json"));
 	});
 	whenDone(movieReqs, function() {
-		whenDone(pageReqs, function() {
-			whenDone(linkReqs, function() {
-				$("#status").html("done");
-				$("#timeTaken").html((new Date()-startTime)/1000 + "s");
-				$("#export").show();
-			});
-		})
+		whenDone(linkReqs, function() {
+			$("#status").html("done");
+			$("#timeTaken").html((new Date()-startTime)/1000 + "s");
+			$("#export").show();
+		});
 	});
 });
 

@@ -11,7 +11,8 @@
       removeSpecialChars(locations[i].title)+","+
       removeSpecialChars(movie)+","+
       removeSpecialChars(locations[i].text[j])+","+
-      "http://en.wikipedia.org/wiki/"+movie
+      "http://en.wikipedia.org/wiki/"+movie+","+
+      imageurl
     %>" <%= j?"":"checked" %> />
     <%= locations[i].text[j] %>
   <% } %>
@@ -22,7 +23,8 @@
       removeSpecialChars(locations[i].title)+","+
       removeSpecialChars(movie)+","+
       ","+
-      "http://en.wikipedia.org/wiki/"+movie
+      "http://en.wikipedia.org/wiki/"+movie+","+
+      imageurl
     %>" checked style="display:none;" />
   <% } %>
 </div>
